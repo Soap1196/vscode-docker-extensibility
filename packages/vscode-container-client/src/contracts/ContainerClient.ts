@@ -1213,9 +1213,35 @@ export type RunPodBindMount = {
     type: 'bind';
     source: string;
     destination: string;
-    readOnly
+    readOnly: boolean
 };
 
+export type RunPodMount = RunPodBindMount;
+
+export type RunPodExtraHost = {
+    hostname: string;
+    ip: string;
+};
+
+export type RunPodCommandOptions = CommonCommandOptions & {
+    /**
+     *
+     */
+    name?: string;
+    /**
+     * List of container names operational in pod (must be atleast one)
+     */
+    containers?: Array<string>
+    /**
+     * Optional ports to expose for the container
+     */
+    ports?: Array<PortBinding>;
+
+type RunPodCommand = {
+    /**
+     * Generate a CommandResponse for running a container
+     */
+}
 
 
 
