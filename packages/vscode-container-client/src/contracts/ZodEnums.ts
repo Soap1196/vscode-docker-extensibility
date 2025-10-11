@@ -20,5 +20,5 @@ export type EventAction = z.infer<typeof EventActionSchema>;
 /**
  * Types of objects that can be listened for events to. More may exist.
  */
-export const EventTypeSchema = z.union([z.enum(['container', 'image', 'network', 'volume', 'daemon', 'plugin', 'config', 'secret', 'service', 'node', 'task', 'engine']), z.string()]);
+export const EventTypeSchema = z.union([z.enum(['container', 'image', 'pod', 'network', 'volume', 'daemon', 'plugin', 'config', 'secret', 'service', 'node', 'task', 'engine']), z.string()]);
 export type EventType = z.infer<typeof EventTypeSchema>;

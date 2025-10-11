@@ -1183,6 +1183,42 @@ type ContainersStatsCommand = {
     statsContainers(options: ContainersStatsCommandOptions): Promise<VoidCommandResponse>;
 };
 
+
+// #endregion
+
+// #region Pod commands
+
+// Run Pod Commands
+
+export type PodPortBinding = {
+    /**
+     * The internal container port
+     */
+    containerPort: number;
+    /**
+     * The optional host port to bind to the container port
+     */
+    hostPort?: number;
+    /**
+     * The optional host IP to bind the port on
+     */
+    hostIp?: string;
+    /**
+     * The protocol the port uses
+     */
+    protocol?: 'udp' | 'tcp';
+};
+
+export type RunPodBindMount = {
+    type: 'bind';
+    source: string;
+    destination: string;
+    readOnly
+};
+
+
+
+
 // #endregion
 
 // #region Volume commands
@@ -1883,6 +1919,8 @@ export interface IContainersClient extends
     LogsForContainerCommand,
     InspectContainersCommand,
     ContainersStatsCommand,
+    // Pod Commands
+
     // Volume Commands
     CreateVolumeCommand,
     ListVolumesCommand,
