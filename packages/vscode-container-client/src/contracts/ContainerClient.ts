@@ -1236,15 +1236,67 @@ export type RunPodCommandOptions = CommonCommandOptions & {
      * Optional ports to expose for the container
      */
     ports?: Array<PortBinding>;
+    /**
+     * Should all exposed ports get automatic host bindings?
+     */
+    publishAllPorts?: boolean;
+    /**
+     * A network to connect to the container
+     */
+    network?: string;
+    /**
+     * A network-scoped alias for the container
+     */
+    networkAlias?: string;
+    /**
+     * Optional expose ports for the container
+     */
+    exposePorts?: Array<number>;
+    /**
+     * Additional custom options to pass
+     */
+    customOptions?: string;
+};
 
 type RunPodCommand = {
     /**
-     * Generate a CommandResponse for running a container
+     * Generate a CommandResponse for running a pod.
+     * @param options Command options
      */
-}
+    runPod(options: RunContainerCommandOptions): Promise<PromiseCommandResponse<string | undefined>>;
+};
 
+export type ListPodsItem = {
+    /**
+     * The ID of the pod
+     */
+    id: string;
+    /**
+     * The name of the pod
+     */
+    name: string;
+    /**
+     * The exposed ports for the pod
+     */
+    ports: Array<PortBinding>;
+    /**
+     * The list of connected networks for the pod
+     */
+    networks: string[];
+    /**
+     * The date the pod was created
+     */
+    createdAt: Date;
+    /**
+     * The pod state (e.g. 'running', 'stopped', 'paused', etc.)
+     */
+    state: string;
+    /**
+     * The pod status (e.g. 'Up 5 minutes', 'Exited (0) 1 minute ago', etc.)
+     */
+    status?: string;
 
-
+};
 // #endregion
 
 // #region Volume commands
