@@ -1276,6 +1276,10 @@ export type ListPodsItem = {
      */
     name: string;
     /**
+     * Labels of the pod
+     */
+    labels: Labels;
+    /**
      * The exposed ports for the pod
      */
     ports: Array<PortBinding>;
