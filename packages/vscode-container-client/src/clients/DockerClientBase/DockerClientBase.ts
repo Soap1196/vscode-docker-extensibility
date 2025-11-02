@@ -1079,6 +1079,12 @@ export abstract class DockerClientBase extends ConfigurableClient implements ICo
 
     //#endregion
 
+    //#region Pod Commands
+
+    //#endregion
+
+    //#endregion
+
     //#region Volume Commands
 
     //#region CreateVolume Command

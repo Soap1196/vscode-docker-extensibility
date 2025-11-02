@@ -27,6 +27,7 @@ import {
     ListNetworksCommandOptions,
     ListVolumeItem,
     ListVolumesCommandOptions,
+    ListPodsItem,
     PortBinding,
     PruneContainersCommandOptions,
     PruneContainersItem,
@@ -51,6 +52,8 @@ import { PodmanListContainerRecord, PodmanListContainerRecordSchema } from './Po
 import { PodmanListImageRecord, PodmanListImageRecordSchema } from './PodmanListImageRecord';
 import { PodmanListNetworkRecordSchema } from './PodmanListNetworkRecord';
 import { PodmanVersionRecordSchema } from './PodmanVersionRecord';
+import { promises } from 'dns';
+import { PodmanListPodRecord, PodmanListPodRecordSchema } from './PodmanListPodRecord';
 
 export class PodmanClient extends DockerClientBase implements IContainersClient {
     /**
@@ -241,6 +244,49 @@ export class PodmanClient extends DockerClientBase implements IContainersClient 
     //#endregion
 
     //#Region ListPods Command
+
+    protected override async parseListPodsCommandOutput(output: string, strict: boolean): Promise<ListPodsItem[]> {
+        const pods = new Array<ListPodsItem>();
+
+        try {
+            const rawPods = PodmanListPodRecordSchema.array().parse(JSON.parse(output));
+            rawPods.forEach((rawPod: PodmanListPodRecord) => {
+                try {
+                    const name = rawPod.Name?.[0].trim();
+                    const createdAt = dayjs.unix(rawPod.Created).toDate();
+                    const ports: PortBinding[] = (rawPod.Ports || []).map(p => {
+                        return {
+                            containerPort: p.pod_port,
+                            hostIp: p.host_ip || "127.0.0.1",
+                            hostPort: p.host_port,
+                            protocol: p.protocol,
+                        };
+                    });
+
+                    pods.push({
+                        id: rawPod.Id,
+                        name,
+                        ports,
+                        networks: rawPod.Networks || [],
+                        labels: rawPod.Labels || {},
+                        createdAt,
+                        state: rawPod.State
+
+                    });
+                } catch (err) {
+                    if (strict) {
+                        throw err;
+                    }
+                }
+            });
+        } catch (err) {
+            if (strict) {
+                throw err;
+            }
+        }
+
+        return pods;
+    }
 
     //#endregion
 
