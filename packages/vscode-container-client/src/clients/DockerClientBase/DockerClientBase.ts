@@ -52,6 +52,7 @@ import {
     ListImagesItem,
     ListNetworkItem,
     ListNetworksCommandOptions,
+    ListPodCommandOptions,
     ListVolumeItem,
     ListVolumesCommandOptions,
     LoginCommandOptions,
@@ -1079,7 +1080,22 @@ export abstract class DockerClientBase extends ConfigurableClient implements ICo
 
     //#endregion
 
-    //#region Pod Commands
+    //#region Pod Commands (Specifically for podman)
+
+    protected getListPodsCommandArgs(
+        options: ListPodCommandOptions,
+    ): CommandLineArgs {
+        return composeArgs(
+            withArg('Pods', 'ls'),
+            withFlagArg('--all', options.all),
+            withFlagArg('--size', options.size),
+            withDockerFilterArg(options.running ? 'status=running' : undefined),
+            withDockerFilterArg(options.exited ? 'status=exited' : undefined),
+            withDockerJsonFormatArg(this.defaultFormatForJson),
+            withDockerIgnoreSizeArg,
+        )();
+    }
+
 
     //#endregion
 

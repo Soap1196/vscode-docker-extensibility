@@ -1266,6 +1266,29 @@ type RunPodCommand = {
     runPod(options: RunContainerCommandOptions): Promise<PromiseCommandResponse<string | undefined>>;
 };
 
+// List Pod Command Types
+
+export type ListPodCommandOptions = CommonCommandOptions & {
+    /**
+     * Should all pods be listed?
+     */
+    all?: boolean;
+    /**
+     * Should only running pods be listed?
+     */
+    running?: boolean;
+    /**
+     * Should exited pods be listed?
+     */
+    exited?: boolean;
+    /**
+     * Should pod sizes be listed
+     */
+    size?: boolean;
+};
+
+// List Pod items
+
 export type ListPodsItem = {
     /**
      * The ID of the pod
