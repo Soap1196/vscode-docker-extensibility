@@ -245,7 +245,7 @@ export class PodmanClient extends DockerClientBase implements IContainersClient 
 
     //#Region ListPods Command
 
-    protected override async parseListPodsCommandOutput(output: string, strict: boolean): Promise<ListPodsItem[]> {
+    protected async parseListPodsCommandOutput(output: string, strict: boolean): Promise<ListPodsItem[]> {
         const pods = new Array<ListPodsItem>();
 
         try {

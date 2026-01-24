@@ -938,7 +938,7 @@ type RemoveContainersCommand = {
      * Generate a CommandResponse for removing container(s).
      * @param options Command options
      */
-    removeContainers(options: RemoveContainersCommandOptions): Promise<PromiseCommandResponse<Array<string>>>;
+    removePods(options: RemoveContainersCommandOptions): Promise<PromiseCommandResponse<Array<string>>>;
 };
 
 // Prune Containers Command Types
@@ -1324,6 +1324,25 @@ export type ListPodsItem = {
     status?: string;
 
 };
+
+export type RemovePodsCommandOptions = CommonCommandOptions & {
+    /**
+     * Pods to remove
+     */
+    pods: Array<string>;
+    /**
+     * Force remove pods even if they aren't stopped?
+     */
+};
+
+type RemovePodCommand = {
+    /**
+     * Generate a CommandResponse for removing container(s).
+     * @param options Command options
+     */
+    removePod(options: RemovePodsCommandOptions): Promise<PromiseCommandResponse<Array<string>>>;
+};
+
 // #endregion
 
 // #region Volume commands

@@ -52,7 +52,6 @@ import {
     ListImagesItem,
     ListNetworkItem,
     ListNetworksCommandOptions,
-    ListPodCommandOptions,
     ListVolumeItem,
     ListVolumesCommandOptions,
     LoginCommandOptions,
@@ -124,6 +123,9 @@ const LinuxStatArguments = '%f %h %g %u %s %X %Y %Z %n';
 const WindowsStatArguments = '/A-S /-C /TW';
 
 export abstract class DockerClientBase extends ConfigurableClient implements IContainersClient {
+    removeContainers(options: RemoveContainersCommandOptions): Promise<PromiseCommandResponse<Array<string>>> {
+        throw new Error('Method not implemented.');
+    }
     /**
      * The default registry for Docker-like clients is docker.io AKA Docker Hub
      */
@@ -914,7 +916,7 @@ export abstract class DockerClientBase extends ConfigurableClient implements ICo
         return asIds(output);
     }
 
-    async removeContainers(options: RemoveContainersCommandOptions): Promise<PromiseCommandResponse<Array<string>>> {
+    async removePods(options: RemoveContainersCommandOptions): Promise<PromiseCommandResponse<Array<string>>> {
         return {
             command: this.commandName,
             args: this.getRemoveContainersCommandArgs(options),
