@@ -1287,9 +1287,28 @@ export type ListPodCommandOptions = CommonCommandOptions & {
     size?: boolean;
 };
 
+export type ListPodItem = {
+    /**
+     * The IDs of all containers in the pod
+     */
+    containerIds: string[];
+    /**
+     * The names of all containers in the pod
+     */
+    containerNames: string[];
+};
+
+type ListPodsCommand = {
+    /**
+     * Generate a CommandResponse for executing a command in a running container.
+     * @param options Command options
+     */
+    listPodsCommands(options: ListPodCommandOptions): Promise<PromiseCommandResponse<Array<ListPodsCommand>>>
+};
+
 // List Pod items
 
-export type ListPodsItem = {
+export type ListPodContainers = {
     /**
      * The ID of the pod
      */
@@ -2044,6 +2063,9 @@ export interface IContainersClient extends
     InspectContainersCommand,
     ContainersStatsCommand,
     // Pod Commands
+    RunPodCommand,
+    ListPodCommand,
+    RemovePodsCommand,
 
     // Volume Commands
     CreateVolumeCommand,
